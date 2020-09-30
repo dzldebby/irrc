@@ -26,7 +26,7 @@
                     value="">
                 </b-input>
             </b-field>
-            <b-field label="Native Language (Auto-complete)">
+            <b-field label="Native Language (Drop-down)">
                 <b-autocomplete
                     v-model="NativeLanguage"
                     ref="autocomplete"
@@ -87,7 +87,7 @@ export default {
               'Urdu',
               'Tamil'
           ],
-          NativeLanguage: '',
+          name: '',
           selected: null
       }
   },
@@ -98,7 +98,7 @@ export default {
             return option
               .toString()
               .toLowerCase()
-              .indexOf(this.NativeLanguage.toLowerCase()) >= 0
+              .indexOf(this.name.toLowerCase()) >= 0
             })
     }
   },
@@ -111,9 +111,9 @@ export default {
     },
     showAddLanguage() {
         this.$buefy.dialog.prompt({
-          message: `Add new language`,
+          message: `Fruit`,
           inputAttrs: {
-            placeholder: 'e.g. Italian',
+            placeholder: 'e.g. Watermelon',
             maxlength: 20,
             value: this.name
           },
