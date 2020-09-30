@@ -1,10 +1,5 @@
 # irrc
 
-## Witin the client folder
-```
-cd client
-```
-
 ## Project setup
 ```
 npm install
