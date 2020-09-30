@@ -28,10 +28,21 @@
             </b-field>
 
             <b-field label="Native Language">
-                <b-input type="NativeLanguage"
-                    value="">
-                </b-input>
-            </b-field>            
+                <b-autocomplete
+                    v-model="NativeLanguage"
+                    ref="autocomplete"
+                    :data="filteredDataArray"
+                    placeholder="e.g. Bengali"
+                    @select="option => selected = option">
+                    <template slot="header">
+                        <a @click="showAddLanguage">
+                            <span> Add new... </span>
+                        </a> 
+                    </template>
+                    <template slot="empty">No results for {{name}}</template>
+                </b-autocomplete>
+            </b-field>
+            
     
             <b-field label="Notes">
                 <b-input maxlength="200" type="textarea" placeholder="Optional"></b-input>
@@ -66,9 +77,54 @@
 
 export default {
   name: 'App',
+
+  data() {
+      return {
+          data: [
+              'Bengali',
+              'English',
+              'Mandarin',
+              'Russian',
+              'Indonesian',
+              'Urdu',
+              'Tamil'
+          ],
+          name: '',
+          selected: null
+      }
+  },
+
+  computed: {
+    filteredDataArray() {
+        return this.data.filter((option) => {
+            return option
+              .toString()
+              .toLowerCase()
+              .indexOf(this.name.toLowerCase()) >= 0
+            })
+    }
+  },
+
+
+
   methods: {
     clickMe(){
       this.$buefy.notification.open('Student created!')
+    },
+    showAddLanguage() {
+        this.$buefy.dialog.prompt({
+          message: `Fruit`,
+          inputAttrs: {
+            placeholder: 'e.g. Watermelon',
+            maxlength: 20,
+            value: this.name
+          },
+          confirmText: 'Add',
+          onConfirm: (value) => {
+            this.data.push(value)
+            this.$refs.autocomplete.setSelected(value)
+          }
+        })
     }
   }
 }
@@ -78,7 +134,7 @@ export default {
 
 
 select {
-  width: 364px;
+  width: 264px;
 }
 
 
@@ -104,5 +160,10 @@ html {
 .container {
   padding: 20px;
   background-color: white;
+}
+
+
+.column.is-half {
+  flex: auto;
 }
 </style>
